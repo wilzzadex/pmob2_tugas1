@@ -9,13 +9,30 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
+  // Kombinasi Username dan Password yang benar (statis)
+  final String correctUsername = 'wilzzadex';
+  final String correctPassword = 'admin123';
 
   void _login() {
     if (_formKey.currentState!.validate()) {
-      // Simulate login success
-      Navigator.pushReplacementNamed(context, '/dashboard');
+      // Cek apakah Username dan Password benar
+      if (_usernameController.text == correctUsername &&
+          _passwordController.text == correctPassword) {
+        // Jika benar, pindah ke halaman Dashboard dan kirim Username
+        Navigator.pushReplacementNamed(
+          context,
+          '/dashboard',
+          arguments: _usernameController.text, // Kirim username ke Dashboard
+        );
+      } else {
+        // Jika salah, tampilkan pesan error
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Username atau Password salah')),
+        );
+      }
     }
   }
 
@@ -31,11 +48,11 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TextFormField(
-                controller: _emailController,
-                decoration: const InputDecoration(labelText: 'Email'),
+                controller: _usernameController,
+                decoration: const InputDecoration(labelText: 'Username'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter your email';
+                    return 'Masukkan Username Anda';
                   }
                   return null;
                 },
@@ -47,7 +64,7 @@ class _LoginPageState extends State<LoginPage> {
                 obscureText: true,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter your password';
+                    return 'Masukkan Password Anda';
                   }
                   return null;
                 },

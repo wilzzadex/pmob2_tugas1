@@ -5,6 +5,9 @@ class DashboardPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Terima username dari argumen
+    final String username = ModalRoute.of(context)!.settings.arguments as String;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Dashboard'),
@@ -17,10 +20,10 @@ class DashboardPage extends StatelessWidget {
           )
         ],
       ),
-      body: const Center(
+      body: Center(
         child: Text(
-          'Welcome to the Dashboard!',
-          style: TextStyle(fontSize: 24.0),
+          'Selamat datang, $username!',
+          style: const TextStyle(fontSize: 24.0),
         ),
       ),
     );
